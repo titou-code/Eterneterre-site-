@@ -9,12 +9,24 @@ export default function Contact() {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
-    const subject = encodeURIComponent(`Contact Eterneterre — ${form.nom}`)
-    const body = encodeURIComponent(
-      `Nom: ${form.nom}\nOrganisation: ${form.organisation || '—'}\nEmail: ${form.email}\nTéléphone: ${form.telephone || '—'}\n\n${form.message}`
-    )
-    window.location.href = `mailto:nicolas.chinchole@eterneterre.fr?subject=${subject}&body=${body}`
-    setSent(true)
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        'form-name': 'contact',
+        'bot-field': '',
+        nom: form.nom,
+        organisation: form.organisation,
+        email: form.email,
+        telephone: form.telephone,
+        message: form.message,
+      }).toString(),
+    })
+      .then(() => {
+        setSent(true)
+        setForm({ nom: '', organisation: '', email: '', telephone: '', message: '' })
+      })
+      .catch((err) => console.error(err))
   }
 
   return (
@@ -50,10 +62,22 @@ export default function Contact() {
             {sent ? (
               <div className="py-16 text-center">
                 <div className="font-display text-2xl text-blanc mb-4">Message envoyé</div>
-                <p className="font-body text-blanc/60">Nous vous répondrons dans les meilleurs délais.</p>
+                <p className="font-body text-blanc/60">Votre message a bien été envoyé, nous vous répondrons sous 48h.</p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form
+                onSubmit={handleSubmit}
+                className="space-y-6"
+                name="contact"
+                data-netlify="true"
+                netlify-honeypot="bot-field"
+              >
+                {/* Champs cachés Netlify */}
+                <input type="hidden" name="form-name" value="contact" />
+                <p style={{ display: 'none' }}>
+                  <label>Ne pas remplir : <input name="bot-field" /></label>
+                </p>
+
                 {/* Nom */}
                 <div>
                   <label htmlFor="contact-nom" className="block font-body text-xs tracking-widest uppercase text-blanc/50 mb-2">
@@ -62,6 +86,7 @@ export default function Contact() {
                   <input
                     id="contact-nom"
                     type="text"
+                    name="nom"
                     required
                     value={form.nom}
                     onChange={(e) => setForm({ ...form, nom: e.target.value })}
@@ -78,6 +103,7 @@ export default function Contact() {
                   <input
                     id="contact-org"
                     type="text"
+                    name="organisation"
                     value={form.organisation}
                     onChange={(e) => setForm({ ...form, organisation: e.target.value })}
                     className="w-full bg-transparent border-b border-blanc/20 text-blanc font-body text-base py-3 px-0 focus:border-lande focus:outline-none transition-colors duration-300 placeholder:text-blanc/20"
@@ -93,6 +119,7 @@ export default function Contact() {
                   <input
                     id="contact-email"
                     type="email"
+                    name="email"
                     required
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
@@ -109,6 +136,7 @@ export default function Contact() {
                   <input
                     id="contact-tel"
                     type="tel"
+                    name="telephone"
                     value={form.telephone}
                     onChange={(e) => setForm({ ...form, telephone: e.target.value })}
                     className="w-full bg-transparent border-b border-blanc/20 text-blanc font-body text-base py-3 px-0 focus:border-lande focus:outline-none transition-colors duration-300 placeholder:text-blanc/20"
@@ -123,6 +151,7 @@ export default function Contact() {
                   </label>
                   <textarea
                     id="contact-message"
+                    name="message"
                     required
                     rows={5}
                     value={form.message}
