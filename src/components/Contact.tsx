@@ -1,23 +1,27 @@
 /**
- * Contact — formulaire distinctif + coordonnées
- * Design : fond vert foncé (inversé), formulaire avec bordures fines
- * Pas de Material/Bootstrap : champs avec labels flottants organiques
+ * Contact — formulaire + coordonnées
  */
 import { useState, type FormEvent } from 'react'
 
 export default function Contact() {
   const [sent, setSent] = useState(false)
+  const [form, setForm] = useState({ nom: '', organisation: '', email: '', telephone: '', message: '' })
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
+    const subject = encodeURIComponent(`Contact Eterneterre — ${form.nom}`)
+    const body = encodeURIComponent(
+      `Nom: ${form.nom}\nOrganisation: ${form.organisation || '—'}\nEmail: ${form.email}\nTéléphone: ${form.telephone || '—'}\n\n${form.message}`
+    )
+    window.location.href = `mailto:nicolas.chinchole@eterneterre.fr?subject=${subject}&body=${body}`
     setSent(true)
   }
 
   return (
     <section id="contact" className="py-24 sm:py-32 bg-foret relative overflow-hidden">
-      {/* Texture décorative */}
       <div
         className="absolute inset-0 opacity-10"
+        aria-hidden="true"
         style={{
           backgroundImage: `
             radial-gradient(ellipse at 10% 90%, rgba(168,181,160,0.4) 0%, transparent 50%),
@@ -45,46 +49,84 @@ export default function Contact() {
           <div className="md:col-span-7 reveal-left">
             {sent ? (
               <div className="py-16 text-center">
-                <div className="font-display text-2xl text-blanc mb-4">
-                  Message envoyé
-                </div>
-                <p className="font-body text-blanc/60">
-                  Nous vous répondrons dans les meilleurs délais.
-                </p>
+                <div className="font-display text-2xl text-blanc mb-4">Message envoyé</div>
+                <p className="font-body text-blanc/60">Nous vous répondrons dans les meilleurs délais.</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Nom */}
                 <div>
-                  <label className="block font-body text-xs tracking-widest uppercase text-blanc/50 mb-2">
+                  <label htmlFor="contact-nom" className="block font-body text-xs tracking-widest uppercase text-blanc/50 mb-2">
                     Nom
                   </label>
                   <input
+                    id="contact-nom"
                     type="text"
                     required
+                    value={form.nom}
+                    onChange={(e) => setForm({ ...form, nom: e.target.value })}
                     className="w-full bg-transparent border-b border-blanc/20 text-blanc font-body text-base py-3 px-0 focus:border-lande focus:outline-none transition-colors duration-300 placeholder:text-blanc/20"
                     placeholder="Votre nom"
                   />
                 </div>
 
+                {/* Organisation */}
                 <div>
-                  <label className="block font-body text-xs tracking-widest uppercase text-blanc/50 mb-2">
+                  <label htmlFor="contact-org" className="block font-body text-xs tracking-widest uppercase text-blanc/50 mb-2">
+                    Organisation / Entreprise
+                  </label>
+                  <input
+                    id="contact-org"
+                    type="text"
+                    value={form.organisation}
+                    onChange={(e) => setForm({ ...form, organisation: e.target.value })}
+                    className="w-full bg-transparent border-b border-blanc/20 text-blanc font-body text-base py-3 px-0 focus:border-lande focus:outline-none transition-colors duration-300 placeholder:text-blanc/20"
+                    placeholder="Votre organisation"
+                  />
+                </div>
+
+                {/* Email */}
+                <div>
+                  <label htmlFor="contact-email" className="block font-body text-xs tracking-widest uppercase text-blanc/50 mb-2">
                     Email
                   </label>
                   <input
+                    id="contact-email"
                     type="email"
                     required
+                    value={form.email}
+                    onChange={(e) => setForm({ ...form, email: e.target.value })}
                     className="w-full bg-transparent border-b border-blanc/20 text-blanc font-body text-base py-3 px-0 focus:border-lande focus:outline-none transition-colors duration-300 placeholder:text-blanc/20"
                     placeholder="votre@email.com"
                   />
                 </div>
 
+                {/* Téléphone */}
                 <div>
-                  <label className="block font-body text-xs tracking-widest uppercase text-blanc/50 mb-2">
+                  <label htmlFor="contact-tel" className="block font-body text-xs tracking-widest uppercase text-blanc/50 mb-2">
+                    Numéro pour être rappelé
+                  </label>
+                  <input
+                    id="contact-tel"
+                    type="tel"
+                    value={form.telephone}
+                    onChange={(e) => setForm({ ...form, telephone: e.target.value })}
+                    className="w-full bg-transparent border-b border-blanc/20 text-blanc font-body text-base py-3 px-0 focus:border-lande focus:outline-none transition-colors duration-300 placeholder:text-blanc/20"
+                    placeholder="06 00 00 00 00"
+                  />
+                </div>
+
+                {/* Message */}
+                <div>
+                  <label htmlFor="contact-message" className="block font-body text-xs tracking-widest uppercase text-blanc/50 mb-2">
                     Message
                   </label>
                   <textarea
+                    id="contact-message"
                     required
                     rows={5}
+                    value={form.message}
+                    onChange={(e) => setForm({ ...form, message: e.target.value })}
                     className="w-full bg-transparent border-b border-blanc/20 text-blanc font-body text-base py-3 px-0 focus:border-lande focus:outline-none transition-colors duration-300 resize-none placeholder:text-blanc/20"
                     placeholder="Décrivez votre besoin..."
                   />
@@ -104,46 +146,39 @@ export default function Contact() {
           <div className="md:col-span-4 md:col-start-9 reveal-right">
             <div className="space-y-8">
               <div>
-                <p className="font-body text-xs tracking-widest uppercase text-blanc/40 mb-2">
-                  Téléphone
-                </p>
+                <p className="font-body text-xs tracking-widest uppercase text-blanc/40 mb-2">Email</p>
                 <a
-                  href="tel:+33664003585"
-                  className="font-display text-xl text-blanc hover:text-lande transition-colors duration-300 no-underline"
+                  href="mailto:nicolas.chinchole@eterneterre.fr"
+                  className="font-body text-sm text-blanc hover:text-lande transition-colors duration-300 no-underline whitespace-nowrap"
                 >
-                  06 64 00 35 85
+                  nicolas.chinchole@eterneterre.fr
                 </a>
               </div>
 
               <div>
-                <p className="font-body text-xs tracking-widest uppercase text-blanc/40 mb-2">
-                  Email
-                </p>
-                <a
-                  href="mailto:nicolas.chinchole@gmail.com"
-                  className="font-body text-base text-blanc/80 hover:text-lande transition-colors duration-300 no-underline break-all"
-                >
-                  nicolas.chinchole@gmail.com
-                </a>
+                <p className="font-body text-xs tracking-widest uppercase text-blanc/40 mb-2">Localisation</p>
+                <p className="font-body text-base text-blanc/80">Bretagne, France</p>
               </div>
 
+              {/* Promesse de réponse */}
+              <div className="border-t border-blanc/10 pt-8">
+                <p className="font-body text-xs tracking-widest uppercase text-blanc/40 mb-3">
+                  Notre engagement
+                </p>
+                <p className="font-display text-lg text-blanc leading-snug mb-2">
+                  Réponse sous 48h
+                </p>
+                <p className="font-body text-sm text-blanc/60 leading-relaxed">
+                  Nous nous engageons à vous répondre sous 48 heures. Chaque demande
+                  est analysée par notre équipe pour vous proposer une réponse adaptée
+                  à votre situation terrain.
+                </p>
+              </div>
+
+              {/* Élément décoratif */}
               <div>
-                <p className="font-body text-xs tracking-widest uppercase text-blanc/40 mb-2">
-                  Localisation
-                </p>
-                <p className="font-body text-base text-blanc/80">
-                  Bretagne, France
-                </p>
-              </div>
-
-              {/* Petit élément décoratif */}
-              <div className="pt-8">
-                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" className="text-lichen/30">
-                  <path
-                    d="M24 4C24 4 8 16 8 30c0 8 7 14 16 14s16-6 16-14C40 16 24 4 24 4z"
-                    stroke="currentColor"
-                    strokeWidth="1"
-                  />
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" className="text-lichen/30" aria-hidden="true">
+                  <path d="M24 4C24 4 8 16 8 30c0 8 7 14 16 14s16-6 16-14C40 16 24 4 24 4z" stroke="currentColor" strokeWidth="1" />
                   <path d="M24 12v24" stroke="currentColor" strokeWidth="0.8" />
                 </svg>
               </div>

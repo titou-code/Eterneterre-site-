@@ -1,7 +1,6 @@
 /**
- * Espèces Envahissantes — présentation éditoriale
- * Pas de grille uniforme : alternance gauche/droite avec décalages
- * Chaque espèce a un traitement visuel unique via des formes organiques
+ * Espèces Envahissantes — présentation éditoriale avec vraies photos
+ * Alternance gauche/droite avec décalages
  */
 
 const especes = [
@@ -10,32 +9,36 @@ const especes = [
     latin: 'Cortaderia selloana',
     description:
       'Ses immenses plumeaux colonisent les terrains vagues, les bords de routes et les zones humides. En étouffant la flore locale, elle réduit drastiquement la biodiversité et augmente les risques d\'incendie. Son éradication nécessite l\'extraction totale du système racinaire.',
-    couleur: 'bg-lande/40',
+    image: '/images/pampa.jpg',
     bordure: 'border-terre',
+    fiche: '/pdfs/Herbe-de-la-pampa.pdf',
   },
   {
     nom: 'Baccharis',
     latin: 'Baccharis halimifolia',
     description:
-      'Arbuste nord-américain qui envahit les marais salants et les zones littorales bretonnes. Chaque plant produit jusqu\'à un million de graines par an, supplantant les espèces endémiques des prés-salés et menaçant ces écosystèmes fragiles.',
-    couleur: 'bg-mousse/10',
+      'Arbuste nord-américain qui envahit les marais salants et les zones littorales. Chaque plant produit jusqu\'à un million de graines par an, supplantant les espèces endémiques des prés-salés et menaçant ces écosystèmes fragiles.',
+    image: '/images/bacharis-real.jpg',
     bordure: 'border-mousse',
+    fiche: '/pdfs/Baccharis.pdf',
   },
   {
     nom: 'Arbre à Papillons',
     latin: 'Buddleja davidii',
     description:
       'Malgré son apparence séduisante, il colonise les friches, les murs et les voies ferrées avec une vigueur redoutable. Il appauvrit les sols et concurrence directement les espèces nourricières locales dont dépendent les pollinisateurs natifs.',
-    couleur: 'bg-creme',
+    image: '/images/arbre-papillon.webp',
     bordure: 'border-lichen',
+    fiche: '/pdfs/herbe-a-papillon.pdf',
   },
   {
     nom: 'Renouée du Japon',
     latin: 'Reynoutria japonica',
     description:
       'La plus redoutée des invasives. Ses rhizomes peuvent s\'enfoncer à 3 mètres de profondeur et traverser le bitume. Elle déstabilise les berges, obstrue les cours d\'eau et provoque des dégâts considérables sur les infrastructures. Un fragment de 1 cm suffit à régénérer un plant entier.',
-    couleur: 'bg-foret/5',
+    image: '/images/renouee.jpg',
     bordure: 'border-foret',
+    fiche: '/pdfs/renouee-du-japon.pdf',
   },
 ]
 
@@ -54,7 +57,7 @@ export default function Especes() {
         </h2>
 
         <p className="font-body text-base text-ardoise/60 mb-16 max-w-2xl reveal">
-          Ces plantes exotiques envahissantes menacent la biodiversité bretonne
+          Ces plantes exotiques envahissantes menacent la biodiversité
           et engendrent des coûts croissants pour les collectivités et les particuliers.
         </p>
 
@@ -63,36 +66,28 @@ export default function Especes() {
           {especes.map((e, i) => (
             <article
               key={e.latin}
-              className={`reveal grid grid-cols-1 md:grid-cols-12 gap-6 items-start ${
-                i % 2 === 1 ? 'md:direction-rtl' : ''
-              }`}
+              className="reveal grid grid-cols-1 md:grid-cols-12 gap-6 items-center"
               style={{ transitionDelay: `${i * 100}ms` }}
             >
-              {/* Placeholder visuel — forme organique */}
+              {/* Photo réelle */}
               <div
-                className={`md:col-span-4 ${
-                  i % 2 === 1 ? 'md:col-start-9' : 'md:col-start-1'
+                className={`md:col-span-5 ${
+                  i % 2 === 1 ? 'md:col-start-8 md:row-start-1' : 'md:col-start-1'
                 }`}
               >
-                <div
-                  className={`aspect-[4/3] ${e.couleur} rounded-[2rem] border ${e.bordure} flex items-center justify-center`}
-                >
-                  <svg width="64" height="64" viewBox="0 0 64 64" fill="none" className="text-foret/20">
-                    <path
-                      d="M32 8C32 8 12 22 12 40c0 8 8 16 20 16s20-8 20-16C52 22 32 8 32 8z"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                    />
-                    <path d="M32 16v32" stroke="currentColor" strokeWidth="1" />
-                    <path d="M32 24l-8 6M32 32l-6 5M32 24l8 6M32 32l6 5" stroke="currentColor" strokeWidth="0.8" />
-                  </svg>
+                <div className={`overflow-hidden rounded-2xl border ${e.bordure}`}>
+                  <img
+                    src={e.image}
+                    alt={e.nom}
+                    className="w-full aspect-[4/3] object-cover hover:scale-105 transition-transform duration-700"
+                  />
                 </div>
               </div>
 
               {/* Texte */}
               <div
-                className={`md:col-span-7 ${
-                  i % 2 === 1 ? 'md:col-start-1 md:row-start-1' : 'md:col-start-6'
+                className={`md:col-span-6 ${
+                  i % 2 === 1 ? 'md:col-start-1 md:row-start-1' : 'md:col-start-7'
                 } flex flex-col justify-center`}
               >
                 <p className="font-body text-xs tracking-[0.2em] uppercase text-terre mb-2">
@@ -101,9 +96,20 @@ export default function Especes() {
                 <h3 className="font-display text-2xl sm:text-3xl font-semibold text-foret mb-3">
                   {e.nom}
                 </h3>
-                <p className="font-body text-base text-ardoise/80 leading-relaxed max-w-lg">
+                <p className="font-body text-base text-ardoise/80 leading-relaxed max-w-lg mb-5">
                   {e.description}
                 </p>
+                <a
+                  href={e.fiche}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 font-body text-sm font-medium text-foret border border-foret/30 hover:bg-foret hover:text-blanc transition-colors duration-300 px-5 py-2.5 rounded-full no-underline self-start"
+                >
+                  Voir la fiche détaillée
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </a>
               </div>
             </article>
           ))}

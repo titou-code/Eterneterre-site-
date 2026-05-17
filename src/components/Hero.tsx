@@ -1,24 +1,27 @@
 /**
- * Hero — plein écran avec placeholder paysage breton
- * Overlay vert semi-transparent, typographie Fraunces audacieuse
- * Le titre utilise un mix-blend pour s'intégrer au visuel
+ * Hero — plein écran avec gradient paysage breton
+ * Animations continues : vague flottante + parallax fond
  */
+const _foliageSvg = `<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'><path d='M0 165 C18 135 55 100 90 65 C75 98 40 128 0 165Z' fill='#1a4d2e' opacity='0.65'/><path d='M0 165 L90 65' stroke='#1a4d2e' stroke-width='1' opacity='0.35'/><path d='M180 15 C162 45 125 80 90 115 C105 82 140 52 180 15Z' fill='#1a4d2e' opacity='0.65'/><path d='M180 15 L90 115' stroke='#1a4d2e' stroke-width='1' opacity='0.35'/><path d='M10 12 C25 2 50 2 62 12 C50 22 25 22 10 12Z' fill='#4a7c59' opacity='0.5'/><path d='M170 168 C155 178 130 178 118 168 C130 158 155 158 170 168Z' fill='#4a7c59' opacity='0.5'/></svg>`
+const _foliageBg = `url("data:image/svg+xml,${encodeURIComponent(_foliageSvg)}")`
+
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Placeholder paysage — gradient simulant un horizon breton */}
-      <div className="absolute inset-0">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-28 sm:pt-36 pb-24">
+      {/* Fond avec parallax continu */}
+      <div className="absolute inset-0 overflow-hidden">
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 hero-bg"
           style={{
             background: `
               linear-gradient(175deg, #3a6b4a 0%, #2d5a3e 25%, #4a7c59 50%, #8b9a6b 70%, #c5b58a 85%, #d4c5a9 100%)
             `,
           }}
         />
-        {/* Texture organique — motif de bruit subtil via radial-gradient */}
+        {/* Texture organique */}
         <div
           className="absolute inset-0 opacity-30"
+          aria-hidden="true"
           style={{
             backgroundImage: `
               radial-gradient(ellipse at 20% 80%, rgba(26,77,46,0.6) 0%, transparent 60%),
@@ -27,31 +30,42 @@ export default function Hero() {
             `,
           }}
         />
-        {/* Overlay vert semi-transparent */}
+        {/* Overlay */}
         <div className="absolute inset-0 bg-foret/40" />
       </div>
 
+      {/* Texture feuillage — overlay répété sur tout le hero */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        aria-hidden="true"
+        style={{
+          backgroundImage: _foliageBg,
+          backgroundSize: '180px 180px',
+          opacity: 0.15,
+        }}
+      />
+
       {/* Contenu */}
       <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
-        {/* Petit label au-dessus */}
-        <p className="font-body text-sm tracking-[0.25em] uppercase text-blanc/70 mb-6 reveal">
-          Traitement des végétaux envahissants · Bretagne
-        </p>
-
-        {/* Titre — Fraunces, grande taille, italic pour le caractère */}
-        <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light italic leading-[1.1] text-blanc mb-8 reveal">
-          À chaque espèce
-          <br />
-          son <span className="font-semibold not-italic text-lande">biotope</span>,
-          <br className="hidden sm:block" />
-          {' '}et à chaque biotope
-          <br />
-          ses <span className="font-semibold not-italic text-lande">espèces</span>
+        {/* Nom de marque */}
+        <h1 className="font-display text-8xl sm:text-9xl md:text-9xl font-light tracking-tight text-blanc mb-8 reveal">
+          Eterneterre
         </h1>
 
-        {/* Ligne décorative organique */}
-        <div className="flex justify-center mb-8 reveal">
-          <svg width="120" height="12" viewBox="0 0 120 12" fill="none">
+        {/* Citation */}
+        <p className="font-display text-3xl sm:text-4xl md:text-5xl font-light text-blanc/80 leading-snug mb-8 reveal">
+          À chaque espèce son <span className="text-lande">biotope</span>,
+          <br />et à chaque biotope ses <span className="text-lande">espèces</span>
+        </p>
+
+        {/* Sous-titre */}
+        <p className="font-body text-base tracking-[0.3em] uppercase text-blanc/55 mb-10 reveal">
+          Traitement des végétaux envahissants
+        </p>
+
+        {/* Ligne décorative */}
+        <div className="flex justify-center reveal">
+          <svg width="120" height="12" viewBox="0 0 120 12" fill="none" aria-hidden="true">
             <path
               d="M2 10C20 2 40 8 60 6C80 4 100 10 118 2"
               stroke="var(--color-lande)"
@@ -60,32 +74,13 @@ export default function Hero() {
             />
           </svg>
         </div>
-
-        {/* CTA */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 reveal">
-          <a
-            href="#contact"
-            className="font-body text-base font-medium px-8 py-4 bg-blanc text-foret rounded-full hover:bg-lande hover:text-foret transition-all duration-300 no-underline"
-          >
-            Nous contacter
-          </a>
-          <a
-            href="#metier"
-            className="font-body text-base text-blanc/80 hover:text-blanc transition-colors duration-300 no-underline flex items-center gap-2"
-          >
-            Découvrir
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M8 3v10M4 9l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </a>
-        </div>
       </div>
 
-      {/* Vague organique en bas — transition vers la section suivante */}
-      <div className="absolute bottom-0 left-0 right-0">
-        <svg viewBox="0 0 1440 80" fill="none" preserveAspectRatio="none" className="w-full h-16 sm:h-20">
+      {/* Vague flottante en bas — déborde vers le bas pour éviter la bande verte */}
+      <div className="absolute left-0 right-0 hero-wave" style={{ bottom: '-20px' }}>
+        <svg viewBox="0 0 1440 100" fill="none" preserveAspectRatio="none" className="w-full" style={{ height: '100px', display: 'block' }} aria-hidden="true">
           <path
-            d="M0 40C240 10 480 70 720 40C960 10 1200 60 1440 30V80H0V40Z"
+            d="M0 40C240 10 480 70 720 40C960 10 1200 60 1440 30V100H0V40Z"
             fill="var(--color-blanc)"
           />
         </svg>

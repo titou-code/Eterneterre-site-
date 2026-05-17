@@ -19,15 +19,21 @@ const points = [
   },
   {
     num: '03',
-    titre: 'Tri des indésirables',
+    titre: 'Maîtrise des coûts et anticipation budgétaire',
     description:
-      'Notre expertise en criblage et tri permet de séparer les rhizomes des terres saines, d\'isoler les semences et de garantir que seule la matière propre est réutilisée ou valorisée.',
+      'Un devis clair, des phases chiffrées et aucune mauvaise surprise. Nous construisons avec vous un plan financier réaliste, aligné sur la durée réelle du chantier et les imprévus du terrain.',
+  },
+  {
+    num: '04',
+    titre: 'Suivi et reporting chantier',
+    description:
+      'Des comptes rendus réguliers, photos à l\'appui, pour une transparence totale à chaque étape de l\'intervention.',
   },
 ]
 
 export default function PointsForts() {
   return (
-    <section className="py-24 sm:py-32 bg-blanc">
+    <section id="points-forts" className="py-24 sm:py-32 bg-blanc">
       <div className="max-w-5xl mx-auto px-6">
         <p className="font-body text-xs tracking-[0.3em] uppercase text-terre mb-4 reveal">
           Nos points forts
@@ -41,7 +47,7 @@ export default function PointsForts() {
           {points.map((p, i) => (
             <article
               key={p.num}
-              className="reveal grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10 items-baseline"
+              className="reveal grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10 items-center"
               style={{ transitionDelay: `${i * 150}ms` }}
             >
               {/* Numéro — grand, décoratif */}
@@ -68,7 +74,7 @@ export default function PointsForts() {
               {/* Ligne séparatrice organique (sauf dernière) */}
               {i < points.length - 1 && (
                 <div className="md:col-span-12 pt-4">
-                  <svg width="100%" height="2" className="overflow-visible">
+                  <svg width="100%" height="2" className="overflow-visible" aria-hidden="true">
                     <line
                       x1="0" y1="1" x2="100%" y2="1"
                       stroke="var(--color-lichen)"
