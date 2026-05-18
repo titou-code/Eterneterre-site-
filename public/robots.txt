@@ -1,2 +1,3 @@
 User-agent: *
 Allow: /
+Sitemap: https://eterneterre.fr/sitemap.xml

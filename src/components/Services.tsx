@@ -10,6 +10,7 @@ type Service = {
   description: string
   icon?: ReactNode
   photo?: string
+  altText?: string
 }
 
 const services: Service[] = [
@@ -17,16 +18,19 @@ const services: Service[] = [
     titre: 'Chantiers mobiles',
     description: 'Intervention sur site avec équipements adaptés à chaque terrain et configuration.',
     photo: '/services/chantier-mobile.jpg',
+    altText: 'Chantier mobile traitement végétaux envahissants Bretagne',
   },
   {
     titre: 'Collecte',
     description: 'Ramassage et transport sécurisé des végétaux envahissants vers nos sites de traitement.',
     photo: '/services/collect.avif',
+    altText: 'Collecte et transport végétaux envahissants Bretagne',
   },
   {
     titre: 'Arrachage',
     description: 'Extraction complète des systèmes racinaires pour empêcher toute repousse.',
     photo: '/services/arrachage.jpg',
+    altText: 'Arrachage plantes invasives Bretagne — extraction racines',
   },
   {
     titre: 'Incinération',
@@ -59,11 +63,13 @@ const services: Service[] = [
     titre: 'Broyage',
     description: 'Réduction mécanique des végétaux en différentes granulométries selon l\'usage final.',
     photo: '/services/broyage.png',
+    altText: 'Broyage végétaux envahissants Bretagne — valorisation',
   },
   {
     titre: 'Criblage de terres et rhizomes',
     description: 'Séparation mécanique des terres contaminées pour extraction et tri des rhizomes.',
     photo: '/services/criblage.jpeg',
+    altText: 'Criblage mécanique terres et rhizomes invasifs Bretagne',
   },
 ]
 
@@ -100,14 +106,14 @@ export default function Services() {
   )
 }
 
-function ServiceCard({ titre, description, icon, photo }: Service) {
+function ServiceCard({ titre, description, icon, photo, altText }: Service) {
   return (
     <div className="group rounded-2xl border border-lichen/50 bg-blanc hover:border-mousse/30 transition-all duration-500 overflow-hidden flex flex-col">
       {photo ? (
         <div className="aspect-[16/10] overflow-hidden">
           <img
             src={photo}
-            alt={titre}
+            alt={altText ?? titre}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
         </div>

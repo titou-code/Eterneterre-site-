@@ -24,7 +24,7 @@ export default function DepollutiionSols() {
             <div className="w-fit rounded-2xl border border-lichen/50 overflow-hidden">
               <img
                 src="/services/depollution-sols.webp"
-                alt="Dépollution mécanique des sols"
+                alt="Dépollution mécanique des sols Bretagne — criblage et assainissement"
                 width={391}
                 height={391}
                 style={{ maxWidth: '100%', height: 'auto', display: 'block' }}

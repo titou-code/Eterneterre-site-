@@ -10,6 +10,7 @@ const especes = [
     description:
       'Ses immenses plumeaux colonisent les terrains vagues, les bords de routes et les zones humides. En étouffant la flore locale, elle réduit drastiquement la biodiversité et augmente les risques d\'incendie. Son éradication nécessite l\'extraction totale du système racinaire.',
     image: '/images/pampa.jpg',
+    altSeo: 'Herbe de la pampa Bretagne — Cortaderia selloana plante invasive',
     bordure: 'border-terre',
     fiche: '/pdfs/Herbe-de-la-pampa.pdf',
   },
@@ -19,6 +20,7 @@ const especes = [
     description:
       'Arbuste nord-américain qui envahit les marais salants et les zones littorales. Chaque plant produit jusqu\'à un million de graines par an, supplantant les espèces endémiques des prés-salés et menaçant ces écosystèmes fragiles.',
     image: '/images/bacharis-real.jpg',
+    altSeo: 'Baccharis halimifolia Bretagne — arbuste invasif zones littorales',
     bordure: 'border-mousse',
     fiche: '/pdfs/Baccharis.pdf',
   },
@@ -28,6 +30,7 @@ const especes = [
     description:
       'Malgré son apparence séduisante, il colonise les friches, les murs et les voies ferrées avec une vigueur redoutable. Il appauvrit les sols et concurrence directement les espèces nourricières locales dont dépendent les pollinisateurs natifs.',
     image: '/images/arbre-papillon.webp',
+    altSeo: 'Arbre à papillons Bretagne — Buddleja davidii espèce invasive',
     bordure: 'border-lichen',
     fiche: '/pdfs/herbe-a-papillon.pdf',
   },
@@ -37,6 +40,7 @@ const especes = [
     description:
       'La plus redoutée des invasives. Ses rhizomes peuvent s\'enfoncer à 3 mètres de profondeur et traverser le bitume. Elle déstabilise les berges, obstrue les cours d\'eau et provoque des dégâts considérables sur les infrastructures. Un fragment de 1 cm suffit à régénérer un plant entier.',
     image: '/images/renouee.jpg',
+    altSeo: 'Renouée du Japon Bretagne — Reynoutria japonica traitement rhizomes',
     bordure: 'border-foret',
     fiche: '/pdfs/renouee-du-japon.pdf',
   },
@@ -78,7 +82,7 @@ export default function Especes() {
                 <div className={`overflow-hidden rounded-2xl border ${e.bordure}`}>
                   <img
                     src={e.image}
-                    alt={e.nom}
+                    alt={e.altSeo}
                     className="w-full aspect-[4/3] object-cover hover:scale-105 transition-transform duration-700"
                   />
                 </div>

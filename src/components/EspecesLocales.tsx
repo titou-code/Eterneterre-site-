@@ -12,6 +12,7 @@ const locales = [
     description:
       'Emblème de la lande bretonne. Pionnier robuste qui fixe l\'azote, structure les sols pauvres et forme une couverture dense en quelques saisons.',
     image: '/images/locales/ajonc-real.jpg',
+    altSeo: 'Ajonc d\'Europe — espèce locale Bretagne recolonisation',
     accent: 'text-terre',
   },
   {
@@ -20,6 +21,7 @@ const locales = [
     description:
       'Pionnier rapide des berges et des terrains remaniés. Son enracinement puissant stabilise les sols et limite la reprise des rhizomes invasifs.',
     image: '/images/locales/saule-real.jpg',
+    altSeo: 'Saule marsault — espèce locale Bretagne stabilisation berges',
     accent: 'text-mousse',
   },
   {
@@ -28,6 +30,7 @@ const locales = [
     description:
       'Essence pionnière par excellence, il colonise rapidement les sols nus et prépare le retour d\'un couvert forestier diversifié et durable.',
     image: '/images/locales/bouleau-real.jpg',
+    altSeo: 'Bouleau verruqueux — espèce pionnière locale Bretagne',
     accent: 'text-terre',
   },
   {
@@ -36,6 +39,7 @@ const locales = [
     description:
       'Indispensable en bord de cours d\'eau. Il consolide les berges, enrichit le sol en azote et concurrence efficacement la Renouée du Japon.',
     image: '/images/locales/aulne-real.jpg',
+    altSeo: 'Aulne glutineux — espèce locale Bretagne bord de cours d\'eau',
     accent: 'text-mousse',
   },
 ]
@@ -70,7 +74,7 @@ export default function EspecesLocales() {
                 <div className="w-36 h-36 sm:w-40 sm:h-40 rounded-full overflow-hidden transition-transform duration-700 group-hover:scale-105">
                   <img
                     src={p.image}
-                    alt={p.nom}
+                    alt={p.altSeo}
                     className="w-full h-full object-cover"
                   />
                 </div>
