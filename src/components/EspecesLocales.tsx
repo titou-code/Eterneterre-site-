@@ -11,7 +11,7 @@ const locales = [
     latin: 'Ulex europaeus',
     description:
       'Emblème de la lande bretonne. Pionnier robuste qui fixe l\'azote, structure les sols pauvres et forme une couverture dense en quelques saisons.',
-    image: '/images/locales/ajonc-real.jpg',
+    image: '/images/locales/ajonc-real.webp',
     altSeo: 'Ajonc d\'Europe — espèce locale Bretagne recolonisation',
     accent: 'text-terre',
   },
@@ -20,7 +20,7 @@ const locales = [
     latin: 'Salix caprea',
     description:
       'Pionnier rapide des berges et des terrains remaniés. Son enracinement puissant stabilise les sols et limite la reprise des rhizomes invasifs.',
-    image: '/images/locales/saule-real.jpg',
+    image: '/images/locales/saule-real.webp',
     altSeo: 'Saule marsault — espèce locale Bretagne stabilisation berges',
     accent: 'text-mousse',
   },
@@ -29,7 +29,7 @@ const locales = [
     latin: 'Betula pendula',
     description:
       'Essence pionnière par excellence, il colonise rapidement les sols nus et prépare le retour d\'un couvert forestier diversifié et durable.',
-    image: '/images/locales/bouleau-real.jpg',
+    image: '/images/locales/bouleau-real.webp',
     altSeo: 'Bouleau verruqueux — espèce pionnière locale Bretagne',
     accent: 'text-terre',
   },
@@ -38,7 +38,7 @@ const locales = [
     latin: 'Alnus glutinosa',
     description:
       'Indispensable en bord de cours d\'eau. Il consolide les berges, enrichit le sol en azote et concurrence efficacement la Renouée du Japon.',
-    image: '/images/locales/aulne-real.jpg',
+    image: '/images/locales/aulne-real.webp',
     altSeo: 'Aulne glutineux — espèce locale Bretagne bord de cours d\'eau',
     accent: 'text-mousse',
   },
@@ -46,7 +46,7 @@ const locales = [
 
 export default function EspecesLocales() {
   return (
-    <section id="locales" className="py-24 sm:py-32 bg-creme">
+    <section id="locales" className="py-24 sm:py-32 bg-creme scroll-mt-20">
       <div className="max-w-6xl mx-auto px-6">
         <p className="font-body text-xs tracking-[0.3em] uppercase text-terre mb-4 reveal">
           Espèces locales
@@ -75,6 +75,9 @@ export default function EspecesLocales() {
                   <img
                     src={p.image}
                     alt={p.altSeo}
+                    width={320}
+                    height={320}
+                    loading="lazy"
                     className="w-full h-full object-cover"
                   />
                 </div>
