@@ -4,7 +4,6 @@
  * graines de pampa qui dérivent, titre et boutons d'action.
  */
 import { useEffect, useRef } from 'react'
-import { Link } from 'react-router'
 import PlantField from './PlantField'
 
 const SEEDS = Array.from({ length: 14 }).map((_, i) => ({
@@ -82,40 +81,38 @@ export default function Hero() {
         ))}
       </div>
 
-      {/* Texte */}
-      <div className="relative z-10 max-w-6xl mx-auto w-full px-6 pt-32 sm:pt-40 pb-[30svh] sm:pb-[40svh] lg:pb-[38svh]">
-        <h1 className="font-display text-[2.6rem] leading-[1.02] sm:text-6xl lg:text-7xl font-light tracking-tight max-w-4xl hero-line">
-          Renouée, pampa, baccharis, buddleia&nbsp;:
-          <span className="block text-lande italic font-light mt-2">on les arrache, le vivant reprend.</span>
+      {/* Contenu — texte d'origine */}
+      <div className="relative z-10 max-w-5xl mx-auto w-full px-6 pt-32 sm:pt-40 pb-[40svh] sm:pb-[40svh] lg:pb-[38svh] text-center">
+        <h1 className="font-display text-6xl sm:text-8xl md:text-9xl font-light tracking-tight text-blanc mb-8 hero-line">
+          Eterneterre
         </h1>
 
-        <p className="font-body text-base sm:text-lg text-blanc/75 leading-relaxed max-w-xl mt-7 hero-line" style={{ animationDelay: '250ms' }}>
-          Eterneterre traite les plantes exotiques envahissantes en Bretagne :
-          arrachage, criblage des terres et rhizomes, dépollution des sols, puis
-          replantation d'espèces locales pour que rien ne repousse.
+        <p className="font-display text-2xl sm:text-4xl md:text-5xl font-light text-blanc/80 leading-snug mb-8 hero-line" style={{ animationDelay: '200ms' }}>
+          À chaque espèce son <span className="text-lande">biotope</span>,
+          <br />et à chaque biotope ses <span className="text-lande">espèces</span>
         </p>
 
-        <div className="flex flex-wrap gap-3 mt-9 hero-line" style={{ animationDelay: '400ms' }}>
-          <Link
-            to="/#contact"
-            className="font-body text-sm font-medium px-6 py-3.5 bg-feuille text-foret rounded-full hover:bg-lande transition-colors duration-300 no-underline"
-          >
-            Demander un diagnostic
-          </Link>
-          <Link
-            to="/#especes"
-            className="font-body text-sm font-medium px-6 py-3.5 border border-blanc/30 text-blanc rounded-full hover:bg-blanc/10 transition-colors duration-300 no-underline"
-          >
-            Les quatre espèces
-          </Link>
+        <p className="font-body text-sm sm:text-base tracking-[0.3em] uppercase text-blanc/55 mb-10 hero-line" style={{ animationDelay: '350ms' }}>
+          Traitement des végétaux envahissants
+        </p>
+
+        <div className="flex justify-center hero-line" style={{ animationDelay: '500ms' }}>
+          <svg width="120" height="12" viewBox="0 0 120 12" fill="none" aria-hidden="true">
+            <path
+              d="M2 10C20 2 40 8 60 6C80 4 100 10 118 2"
+              stroke="var(--color-lande)"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+            />
+          </svg>
         </div>
       </div>
 
       {/* Champ illustré — deux plans pour la profondeur */}
-      <div className="absolute inset-x-0 bottom-0 h-[30svh] sm:h-[48svh] pointer-events-none" aria-hidden="true">
+      <div className="absolute inset-x-0 bottom-0 h-[35svh] sm:h-[48svh] pointer-events-none" aria-hidden="true">
         {/* Mobile : cadrage resserré sur trois plantes */}
-        <PlantField layer="back" viewBox="330 0 800 420" fit="meet" className="sm:hidden hero-layer hero-layer-back absolute inset-x-0 bottom-0 w-full h-full" />
-        <PlantField layer="front" viewBox="330 0 800 420" fit="meet" className="sm:hidden hero-layer hero-layer-front absolute inset-x-0 bottom-0 w-full h-full" />
+        <PlantField layer="back" viewBox="360 0 560 420" className="sm:hidden hero-layer hero-layer-back absolute inset-x-0 bottom-0 w-full h-full" />
+        <PlantField layer="front" viewBox="360 0 560 420" className="sm:hidden hero-layer hero-layer-front absolute inset-x-0 bottom-0 w-full h-full" />
         <PlantField layer="back" className="hidden sm:block hero-layer hero-layer-back absolute inset-x-0 bottom-0 w-full h-full" />
         <PlantField layer="front" className="hidden sm:block hero-layer hero-layer-front absolute inset-x-0 bottom-0 w-full h-full" />
         {/* Sol */}

@@ -6,7 +6,6 @@ const links = [
   { label: 'Notre métier', href: '/#metier' },
   { label: 'Espèces', href: '/#especes' },
   { label: 'Services', href: '/#services' },
-  { label: 'Dépollution', href: '/#depollution' },
   { label: 'Espèces locales', href: '/#locales' },
 ]
 

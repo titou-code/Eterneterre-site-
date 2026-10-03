@@ -20,9 +20,8 @@ export default function Especes() {
         </h2>
 
         <p className="font-body text-base text-ardoise/60 mb-16 max-w-2xl reveal">
-          Ces plantes exotiques envahissantes menacent la biodiversité bretonne
-          et engendrent des coûts croissants pour les collectivités, les entreprises
-          et les particuliers. Nous intervenons sur chacune d'elles avec un protocole adapté.
+          Ces plantes exotiques envahissantes menacent la biodiversité
+          et engendrent des coûts croissants pour les collectivités et les particuliers.
         </p>
 
         <div className="space-y-10 sm:space-y-14">
@@ -53,23 +52,15 @@ export default function Especes() {
                   </Link>
                 </h3>
                 <p className="font-body text-base text-ardoise/80 leading-relaxed max-w-lg mb-5">{e.resume}</p>
-                <div className="flex flex-wrap gap-3">
-                  <Link
-                    to={`/especes/${e.slug}`}
-                    className="inline-flex items-center gap-2 font-body text-sm font-medium bg-foret text-blanc hover:bg-mousse transition-colors duration-300 px-5 py-2.5 rounded-full no-underline"
-                  >
-                    Notre méthode de traitement
-                    <Arrow />
-                  </Link>
-                  <a
-                    href={e.fiche}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 font-body text-sm font-medium text-foret border border-foret/30 hover:bg-foret hover:text-blanc transition-colors duration-300 px-5 py-2.5 rounded-full no-underline"
-                  >
-                    Fiche PDF
-                  </a>
-                </div>
+                <a
+                  href={e.fiche}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 font-body text-sm font-medium text-foret border border-foret/30 hover:bg-foret hover:text-blanc transition-colors duration-300 px-5 py-2.5 rounded-full no-underline self-start"
+                >
+                  Voir la fiche détaillée
+                  <Arrow />
+                </a>
               </div>
             </article>
           ))}

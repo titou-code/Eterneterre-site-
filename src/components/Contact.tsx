@@ -12,7 +12,7 @@ type Status = 'idle' | 'sending' | 'sent' | 'error'
 
 export default function Contact({
   titre = <>Parlons de votre <span className="italic text-lande">projet</span></>,
-  intro = 'Envahisseurs identifiés sur votre terrain ? Besoin d\'un diagnostic ou d\'une dépollution de sol ? Décrivez-nous la situation, nous vous répondons sous 48h.',
+  intro = 'Envahisseurs identifiés sur votre terrain ? Besoin de sous-produits végétaux ? Contactez-nous pour un diagnostic personnalisé.',
 }: ContactProps) {
   const [status, setStatus] = useState<Status>('idle')
   const [form, setForm] = useState({ nom: '', organisation: '', email: '', telephone: '', message: '' })
