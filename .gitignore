@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Sortie intermédiaire du pré-rendu (scripts/prerender.mjs)
+dist-ssr

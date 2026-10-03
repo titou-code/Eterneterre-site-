@@ -1,5 +1,5 @@
 /**
- * Services — 5 services (Chantiers mobiles, Collecte, Arrachage, Incinération, Broyage, Criblage)
+ * Services — 6 services (Chantiers mobiles, Collecte, Arrachage, Incinération, Broyage, Criblage)
  * Certains utilisent une photo, d'autres une icône SVG.
  * Layout : rangée 3 + rangée 2 centrée.
  */
@@ -17,19 +17,19 @@ const services: Service[] = [
   {
     titre: 'Chantiers mobiles',
     description: 'Intervention sur site avec équipements adaptés à chaque terrain et configuration.',
-    photo: '/services/chantier-mobile.jpg',
+    photo: '/services/chantier-mobile.webp',
     altText: 'Chantier mobile traitement végétaux envahissants Bretagne',
   },
   {
     titre: 'Collecte',
     description: 'Ramassage et transport sécurisé des végétaux envahissants vers nos sites de traitement.',
-    photo: '/services/collect.avif',
+    photo: '/services/collect.webp',
     altText: 'Collecte et transport végétaux envahissants Bretagne',
   },
   {
     titre: 'Arrachage',
     description: 'Extraction complète des systèmes racinaires pour empêcher toute repousse.',
-    photo: '/services/arrachage.jpg',
+    photo: '/services/arrachage.webp',
     altText: 'Arrachage plantes invasives Bretagne — extraction racines',
   },
   {
@@ -62,13 +62,13 @@ const services: Service[] = [
   {
     titre: 'Broyage',
     description: 'Réduction mécanique des végétaux en différentes granulométries selon l\'usage final.',
-    photo: '/services/broyage.png',
+    photo: '/services/broyage.webp',
     altText: 'Broyage végétaux envahissants Bretagne — valorisation',
   },
   {
     titre: 'Criblage de terres et rhizomes',
     description: 'Séparation mécanique des terres contaminées pour extraction et tri des rhizomes.',
-    photo: '/services/criblage.jpeg',
+    photo: '/services/criblage.webp',
     altText: 'Criblage mécanique terres et rhizomes invasifs Bretagne',
   },
 ]
@@ -79,7 +79,7 @@ export default function Services() {
   const row2 = services.slice(3, 6)
 
   return (
-    <section id="services" className="py-24 sm:py-32 bg-blanc">
+    <section id="services" className="py-24 sm:py-32 bg-blanc scroll-mt-20">
       <div className="max-w-6xl mx-auto px-6">
         <p className="font-body text-xs tracking-[0.3em] uppercase text-terre mb-4 reveal">
           Nos services
@@ -114,6 +114,9 @@ function ServiceCard({ titre, description, icon, photo, altText }: Service) {
           <img
             src={photo}
             alt={altText ?? titre}
+            width={960}
+            height={600}
+            loading="lazy"
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
         </div>

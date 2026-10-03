@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* Polices auto-hébergées (plus de requête vers Google Fonts : plus rapide, RGPD) */
+@import "@fontsource-variable/fraunces/opsz.css";
+@import "@fontsource-variable/fraunces/opsz-italic.css";
+@import "@fontsource-variable/dm-sans/opsz.css";
+
 /*
  * DIRECTION ESTHÉTIQUE : Brutalisme organique + éditorial
  * ─────────────────────────────────────────────────────────
@@ -19,8 +24,8 @@
   --color-lichen: #a8b5a0;
   --color-lande: #d4c5a9;
 
-  --font-display: 'Fraunces', serif;
-  --font-body: 'DM Sans', sans-serif;
+  --font-display: 'Fraunces Variable', Georgia, serif;
+  --font-body: 'DM Sans Variable', system-ui, sans-serif;
 }
 
 html {
@@ -39,8 +44,10 @@ body {
   color: var(--color-blanc);
 }
 
-/* ── Scroll reveal animations ── */
-.reveal {
+/* ── Scroll reveal animations ──
+   Actives uniquement quand le JS est chargé (html.js, posé par entry-client)
+   pour que le HTML pré-rendu soit lisible immédiatement. ── */
+:where(html.js) .reveal {
   opacity: 0;
   transform: translateY(32px);
   transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
@@ -51,7 +58,7 @@ body {
   transform: translateY(0);
 }
 
-.reveal-left {
+:where(html.js) .reveal-left {
   opacity: 0;
   transform: translateX(-48px);
   transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
@@ -62,7 +69,7 @@ body {
   transform: translateX(0);
 }
 
-.reveal-right {
+:where(html.js) .reveal-right {
   opacity: 0;
   transform: translateX(48px);
   transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
@@ -73,7 +80,7 @@ body {
   transform: translateX(0);
 }
 
-.stagger > * {
+:where(html.js) .stagger > * {
   opacity: 0;
   transform: translateY(24px);
   transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
@@ -91,19 +98,13 @@ body {
 .stagger.visible > *:nth-child(6) { transition-delay: 500ms; }
 .stagger.visible > *:nth-child(7) { transition-delay: 600ms; }
 
-/* ── Hero animations permanentes ── */
-@keyframes wave-float {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-12px); }
-}
-@keyframes parallax-drift {
-  0%, 100% { transform: scale(1.08) translateY(0px); }
-  50%       { transform: scale(1.08) translateY(-18px); }
+/* Respect de la préférence « réduire les animations » */
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .reveal-left, .reveal-right, .stagger > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  html { scroll-behavior: auto; }
 }
 
-.hero-wave {
-  animation: wave-float 6s ease-in-out infinite;
-}
-.hero-bg {
-  animation: parallax-drift 14s ease-in-out infinite;
-}

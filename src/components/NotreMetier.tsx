@@ -4,7 +4,7 @@
  */
 export default function NotreMetier() {
   return (
-    <section id="metier" className="py-24 sm:py-32 bg-blanc">
+    <section id="metier" className="py-24 sm:py-32 bg-blanc scroll-mt-20">
       <div className="max-w-6xl mx-auto px-6">
         <p className="font-body text-xs tracking-[0.3em] uppercase text-terre mb-4 reveal">
           Notre métier

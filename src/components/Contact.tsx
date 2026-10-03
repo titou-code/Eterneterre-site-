@@ -1,14 +1,25 @@
 /**
  * Contact — formulaire + coordonnées
  */
-import { useState, type FormEvent } from 'react'
+import { useState, type FormEvent, type ReactNode } from 'react'
 
-export default function Contact() {
-  const [sent, setSent] = useState(false)
+type ContactProps = {
+  titre?: ReactNode
+  intro?: string
+}
+
+type Status = 'idle' | 'sending' | 'sent' | 'error'
+
+export default function Contact({
+  titre = <>Parlons de votre <span className="italic text-lande">projet</span></>,
+  intro = 'Envahisseurs identifiés sur votre terrain ? Besoin d\'un diagnostic ou d\'une dépollution de sol ? Décrivez-nous la situation, nous vous répondons sous 48h.',
+}: ContactProps) {
+  const [status, setStatus] = useState<Status>('idle')
   const [form, setForm] = useState({ nom: '', organisation: '', email: '', telephone: '', message: '' })
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
+    setStatus('sending')
     fetch('/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -22,15 +33,19 @@ export default function Contact() {
         message: form.message,
       }).toString(),
     })
-      .then(() => {
-        setSent(true)
+      .then((res) => {
+        if (!res.ok) throw new Error(`Netlify Forms: HTTP ${res.status}`)
+        setStatus('sent')
         setForm({ nom: '', organisation: '', email: '', telephone: '', message: '' })
       })
-      .catch((err) => console.error(err))
+      .catch((err) => {
+        console.error(err)
+        setStatus('error')
+      })
   }
 
   return (
-    <section id="contact" className="py-24 sm:py-32 bg-foret relative overflow-hidden">
+    <section id="contact" className="py-24 sm:py-32 bg-foret relative overflow-hidden scroll-mt-20">
       <div
         className="absolute inset-0 opacity-10"
         aria-hidden="true"
@@ -48,19 +63,18 @@ export default function Contact() {
         </p>
 
         <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-light text-blanc leading-tight mb-6 reveal">
-          Parlons de votre <span className="italic text-lande">projet</span>
+          {titre}
         </h2>
 
         <p className="font-body text-base text-blanc/60 mb-16 max-w-lg reveal">
-          Envahisseurs identifiés sur votre terrain ? Besoin de sous-produits végétaux ?
-          Contactez-nous pour un diagnostic personnalisé.
+          {intro}
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16">
           {/* Formulaire */}
           <div className="md:col-span-7 reveal-left">
-            {sent ? (
-              <div className="py-16 text-center">
+            {status === 'sent' ? (
+              <div className="py-16 text-center" role="status">
                 <div className="font-display text-2xl text-blanc mb-4">Message envoyé</div>
                 <p className="font-body text-blanc/60">Votre message a bien été envoyé, nous vous répondrons sous 48h.</p>
               </div>
@@ -161,11 +175,19 @@ export default function Contact() {
                   />
                 </div>
 
+                {status === 'error' && (
+                  <p className="font-body text-sm text-lande" role="alert">
+                    L'envoi a échoué. Réessayez dans un instant ou écrivez-nous directement à{' '}
+                    <a href="mailto:nicolas.chinchole@eterneterre.fr" className="underline">nicolas.chinchole@eterneterre.fr</a>.
+                  </p>
+                )}
+
                 <button
                   type="submit"
-                  className="font-body text-sm font-medium px-8 py-4 bg-blanc text-foret rounded-full hover:bg-lande transition-colors duration-300 mt-4 cursor-pointer"
+                  disabled={status === 'sending'}
+                  className="font-body text-sm font-medium px-8 py-4 bg-blanc text-foret rounded-full hover:bg-lande transition-colors duration-300 mt-4 cursor-pointer disabled:opacity-60 disabled:cursor-wait"
                 >
-                  Envoyer le message
+                  {status === 'sending' ? 'Envoi en cours…' : 'Envoyer le message'}
                 </button>
               </form>
             )}
