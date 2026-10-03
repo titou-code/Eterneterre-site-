@@ -23,6 +23,8 @@
   --color-ardoise: #2d3a3a;
   --color-lichen: #a8b5a0;
   --color-lande: #d4c5a9;
+  --color-feuille: #8fd16a;
+  --color-sauge: #e3ecdd;
 
   --font-display: 'Fraunces Variable', Georgia, serif;
   --font-body: 'DM Sans Variable', system-ui, sans-serif;
@@ -108,3 +110,63 @@ body {
   html { scroll-behavior: auto; }
 }
 
+/* ── Hero : champ de plantes animé ── */
+@keyframes plant-grow {
+  from { transform: scale(0.001, 0.001); opacity: 0; }
+  60%  { opacity: 1; }
+  to   { transform: scale(1, 1); opacity: 1; }
+}
+@keyframes plant-sway {
+  0%, 100% { transform: rotate(-1.6deg); }
+  50%      { transform: rotate(1.6deg); }
+}
+@keyframes hero-line {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes seed-drift {
+  0%   { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+  10%  { opacity: 0.8; }
+  90%  { opacity: 0.6; }
+  100% { transform: translate(-140px, -220px) rotate(200deg); opacity: 0; }
+}
+@keyframes scroll-cue {
+  0%   { transform: scaleY(0); transform-origin: top; }
+  50%  { transform: scaleY(1); transform-origin: top; }
+  51%  { transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+.plant-grow {
+  animation: plant-grow 1.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.plant-sway {
+  animation: plant-sway 7s ease-in-out infinite;
+}
+.hero-line {
+  animation: hero-line 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.hero-layer {
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+.hero-layer-back  { transform: translate(calc(var(--mx) * -10px), calc(var(--my) * -4px)); }
+.hero-layer-front { transform: translate(calc(var(--mx) * 22px),  calc(var(--my) * 8px)); }
+
+.seed {
+  position: absolute;
+  border-radius: 9999px;
+  background: #eadfc4;
+  box-shadow: 0 0 6px rgba(234, 223, 196, 0.6);
+  animation: seed-drift linear infinite;
+}
+.scroll-cue {
+  animation: scroll-cue 2.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plant-grow, .plant-sway, .hero-line, .seed, .scroll-cue { animation: none; }
+  .plant-grow, .hero-line { opacity: 1; transform: none; }
+  .hero-layer { transition: none; transform: none; }
+  .seed { display: none; }
+}

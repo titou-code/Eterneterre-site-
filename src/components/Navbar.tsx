@@ -14,6 +14,8 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const location = useLocation()
+  // Sur l'accueil, la barre est transparente (texte clair) tant qu'on est sur le hero
+  const onHero = location.pathname === '/' && !scrolled
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -36,13 +38,15 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-blanc/95 backdrop-blur-md ${
-        scrolled ? 'shadow-[0_1px_0_var(--color-lichen)]' : ''
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        onHero && !open
+          ? 'bg-transparent text-blanc'
+          : 'bg-blanc/95 backdrop-blur-md text-ardoise shadow-[0_1px_0_var(--color-lichen)]'
       }`}
       aria-label="Navigation principale"
     >
       <div className="mx-auto max-w-7xl flex items-center px-6 py-4 gap-8">
-        <Logo />
+        <Logo light={onHero && !open} />
 
         {/* Desktop links */}
         <ul className="hidden md:flex flex-1 items-center justify-center gap-7">
@@ -50,7 +54,9 @@ export default function Navbar() {
             <li key={l.href}>
               <Link
                 to={l.href}
-                className="font-body text-sm tracking-wide text-ardoise/70 hover:text-foret transition-colors duration-300 no-underline"
+                className={`font-body text-sm tracking-wide transition-colors duration-300 no-underline ${
+                  onHero && !open ? 'text-blanc/80 hover:text-blanc' : 'text-ardoise/70 hover:text-foret'
+                }`}
               >
                 {l.label}
               </Link>
@@ -60,7 +66,9 @@ export default function Navbar() {
 
         <Link
           to="/#contact"
-          className="hidden md:inline-block font-body text-sm font-medium px-5 py-2.5 bg-foret text-blanc rounded-full hover:bg-mousse transition-colors duration-300 no-underline"
+          className={`hidden md:inline-block font-body text-sm font-medium px-5 py-2.5 rounded-full transition-colors duration-300 no-underline ${
+            onHero && !open ? 'bg-feuille text-foret hover:bg-lande' : 'bg-foret text-blanc hover:bg-mousse'
+          }`}
         >
           Nous contacter
         </Link>
@@ -68,14 +76,14 @@ export default function Navbar() {
         {/* Mobile burger */}
         <button
           onClick={() => setOpen(!open)}
-          className="md:hidden flex flex-col gap-1.5 p-2 ml-auto cursor-pointer"
+          className={`md:hidden flex flex-col gap-1.5 p-2 ml-auto cursor-pointer ${onHero && !open ? 'text-blanc' : 'text-foret'}`}
           aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'}
           aria-expanded={open}
           aria-controls="menu-mobile"
         >
-          <span className={`block h-0.5 bg-foret transition-all duration-300 ${open ? 'w-6 rotate-45 translate-y-2' : 'w-6'}`} />
-          <span className={`block h-0.5 bg-foret transition-all duration-300 ${open ? 'opacity-0 w-4' : 'w-4 ml-auto'}`} />
-          <span className={`block h-0.5 bg-foret transition-all duration-300 ${open ? 'w-6 -rotate-45 -translate-y-2' : 'w-5'}`} />
+          <span className={`block h-0.5 bg-current transition-all duration-300 ${open ? 'w-6 rotate-45 translate-y-2' : 'w-6'}`} />
+          <span className={`block h-0.5 bg-current transition-all duration-300 ${open ? 'opacity-0 w-4' : 'w-4 ml-auto'}`} />
+          <span className={`block h-0.5 bg-current transition-all duration-300 ${open ? 'w-6 -rotate-45 -translate-y-2' : 'w-5'}`} />
         </button>
       </div>
 

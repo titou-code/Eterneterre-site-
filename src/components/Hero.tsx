@@ -1,102 +1,136 @@
 /**
- * Hero — deux colonnes sur fond clair :
- * accroche + boutons d'action à gauche, photo de chantier à droite.
- * Le H1 décrit le service (référencement) ; la devise reste en exergue.
+ * Hero — fond vert forêt, champ illustré des quatre invasives en bas
+ * (SVG animé : pousse à l'arrivée, balancement, parallaxe souris),
+ * graines de pampa qui dérivent, titre et boutons d'action.
  */
+import { useEffect, useRef } from 'react'
 import { Link } from 'react-router'
+import PlantField from './PlantField'
 
-const publics = ['Collectivités', 'Entreprises de TP', 'Agriculteurs', 'Particuliers']
+const SEEDS = Array.from({ length: 14 }).map((_, i) => ({
+  left: `${(i * 67) % 100}%`,
+  top: `${10 + ((i * 37) % 60)}%`,
+  size: 3 + (i % 3),
+  dur: 14 + (i % 5) * 3,
+  delay: -(i * 1.7),
+}))
 
 export default function Hero() {
+  const ref = useRef<HTMLElement>(null)
+
+  // Parallaxe souris : expose --mx / --my (−1 → 1) au conteneur
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    if (!window.matchMedia('(pointer: fine)').matches) return
+    let raf = 0
+    const onMove = (e: MouseEvent) => {
+      const r = el.getBoundingClientRect()
+      const mx = ((e.clientX - r.left) / r.width) * 2 - 1
+      const my = ((e.clientY - r.top) / r.height) * 2 - 1
+      cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(() => {
+        el.style.setProperty('--mx', mx.toFixed(3))
+        el.style.setProperty('--my', my.toFixed(3))
+      })
+    }
+    const onLeave = () => {
+      el.style.setProperty('--mx', '0')
+      el.style.setProperty('--my', '0')
+    }
+    el.addEventListener('mousemove', onMove)
+    el.addEventListener('mouseleave', onLeave)
+    return () => {
+      el.removeEventListener('mousemove', onMove)
+      el.removeEventListener('mouseleave', onLeave)
+      cancelAnimationFrame(raf)
+    }
+  }, [])
+
   return (
-    <section className="relative overflow-hidden bg-creme pt-28 sm:pt-36 pb-16 sm:pb-24">
-      {/* Halo organique en arrière-plan */}
+    <section
+      ref={ref}
+      className="hero relative min-h-[100svh] flex flex-col overflow-hidden bg-foret text-blanc"
+      style={{ '--mx': 0, '--my': 0 } as React.CSSProperties}
+    >
+      {/* Lumière du ciel */}
       <div
         className="absolute inset-0 pointer-events-none"
         aria-hidden="true"
         style={{
-          backgroundImage: `
-            radial-gradient(ellipse at 85% 15%, rgba(74,124,89,0.14) 0%, transparent 55%),
-            radial-gradient(ellipse at 10% 90%, rgba(139,111,71,0.10) 0%, transparent 50%)
-          `,
+          background:
+            'radial-gradient(ellipse 80% 60% at 50% -10%, rgba(143,209,106,0.22) 0%, transparent 60%), linear-gradient(180deg, #163b26 0%, #1a4d2e 55%, #1f5a36 100%)',
         }}
       />
 
-      <div className="relative max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-        {/* Texte */}
-        <div className="lg:col-span-6">
-          <p className="font-body text-xs tracking-[0.3em] uppercase text-terre mb-5 reveal">
-            Bretagne · Plantes exotiques envahissantes
-          </p>
+      {/* Graines de pampa qui dérivent */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+        {SEEDS.map((s, i) => (
+          <span
+            key={i}
+            className="seed"
+            style={{
+              left: s.left,
+              top: s.top,
+              width: s.size,
+              height: s.size,
+              animationDuration: `${s.dur}s`,
+              animationDelay: `${s.delay}s`,
+            }}
+          />
+        ))}
+      </div>
 
-          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-light tracking-tight text-foret leading-[1.05] mb-6 reveal">
-            Traitement des plantes <span className="italic text-mousse">invasives</span> en Bretagne
-          </h1>
+      {/* Texte */}
+      <div className="relative z-10 max-w-6xl mx-auto w-full px-6 pt-32 sm:pt-40 pb-[30svh] sm:pb-[40svh] lg:pb-[38svh]">
+        <h1 className="font-display text-[2.6rem] leading-[1.02] sm:text-6xl lg:text-7xl font-light tracking-tight max-w-4xl hero-line">
+          Renouée, pampa, baccharis, buddleia&nbsp;:
+          <span className="block text-lande italic font-light mt-2">on les arrache, le vivant reprend.</span>
+        </h1>
 
-          <p className="font-display text-xl sm:text-2xl font-light text-ardoise/75 leading-snug mb-8 max-w-xl reveal">
-            À chaque espèce son biotope, et à chaque biotope ses espèces.
-            Nous arrachons la renouée, la pampa, le baccharis et le buddleia,
-            puis nous rendons le terrain au vivant.
-          </p>
+        <p className="font-body text-base sm:text-lg text-blanc/75 leading-relaxed max-w-xl mt-7 hero-line" style={{ animationDelay: '250ms' }}>
+          Eterneterre traite les plantes exotiques envahissantes en Bretagne :
+          arrachage, criblage des terres et rhizomes, dépollution des sols, puis
+          replantation d'espèces locales pour que rien ne repousse.
+        </p>
 
-          <div className="flex flex-wrap gap-3 mb-10 reveal">
-            <Link
-              to="/#contact"
-              className="font-body text-sm font-medium px-6 py-3.5 bg-foret text-blanc rounded-full hover:bg-mousse transition-colors duration-300 no-underline"
-            >
-              Demander un diagnostic
-            </Link>
-            <Link
-              to="/#especes"
-              className="font-body text-sm font-medium px-6 py-3.5 border border-foret/30 text-foret rounded-full hover:bg-foret hover:text-blanc transition-colors duration-300 no-underline"
-            >
-              Les espèces traitées
-            </Link>
-          </div>
-
-          <ul className="flex flex-wrap gap-x-5 gap-y-2 reveal" aria-label="Nous intervenons pour">
-            {publics.map((p) => (
-              <li key={p} className="font-body text-xs tracking-wide uppercase text-ardoise/55 flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-mousse" aria-hidden="true" />
-                {p}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Visuel */}
-        <div className="lg:col-span-6 reveal-right">
-          <div className="relative">
-            <div className="rounded-3xl overflow-hidden border border-lichen/50 shadow-[0_24px_60px_-30px_rgba(26,77,46,0.45)]">
-              <img
-                src="/services/chantier-mobile.webp"
-                alt="Pelle mécanique en intervention d'arrachage de plantes invasives sur une berge en Bretagne"
-                width={960}
-                height={640}
-                fetchPriority="high"
-                className="w-full aspect-[4/3] lg:aspect-[5/4] object-cover"
-              />
-            </div>
-
-            {/* Vignette secondaire */}
-            <div className="absolute -bottom-6 -left-4 sm:-left-8 w-36 sm:w-44 rounded-2xl overflow-hidden border-4 border-creme shadow-lg rotate-[-3deg]">
-              <img
-                src="/images/renouee.webp"
-                alt="Feuilles de renouée du Japon"
-                width={900}
-                height={576}
-                loading="lazy"
-                className="w-full aspect-[4/3] object-cover"
-              />
-            </div>
-
-            {/* Étiquette */}
-            <div className="absolute top-4 right-4 bg-blanc/90 backdrop-blur-sm rounded-full px-4 py-2 font-body text-xs tracking-wide text-foret border border-lichen/50">
-              Arrachage mécanique sur berge
-            </div>
-          </div>
+        <div className="flex flex-wrap gap-3 mt-9 hero-line" style={{ animationDelay: '400ms' }}>
+          <Link
+            to="/#contact"
+            className="font-body text-sm font-medium px-6 py-3.5 bg-feuille text-foret rounded-full hover:bg-lande transition-colors duration-300 no-underline"
+          >
+            Demander un diagnostic
+          </Link>
+          <Link
+            to="/#especes"
+            className="font-body text-sm font-medium px-6 py-3.5 border border-blanc/30 text-blanc rounded-full hover:bg-blanc/10 transition-colors duration-300 no-underline"
+          >
+            Les quatre espèces
+          </Link>
         </div>
       </div>
+
+      {/* Champ illustré — deux plans pour la profondeur */}
+      <div className="absolute inset-x-0 bottom-0 h-[30svh] sm:h-[48svh] pointer-events-none" aria-hidden="true">
+        {/* Mobile : cadrage resserré sur trois plantes */}
+        <PlantField layer="back" viewBox="330 0 800 420" fit="meet" className="sm:hidden hero-layer hero-layer-back absolute inset-x-0 bottom-0 w-full h-full" />
+        <PlantField layer="front" viewBox="330 0 800 420" fit="meet" className="sm:hidden hero-layer hero-layer-front absolute inset-x-0 bottom-0 w-full h-full" />
+        <PlantField layer="back" className="hidden sm:block hero-layer hero-layer-back absolute inset-x-0 bottom-0 w-full h-full" />
+        <PlantField layer="front" className="hidden sm:block hero-layer hero-layer-front absolute inset-x-0 bottom-0 w-full h-full" />
+        {/* Sol */}
+        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-foret to-transparent" />
+      </div>
+
+      {/* Indice de défilement */}
+      <a
+        href="#metier"
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 font-body text-xs text-blanc/50 hover:text-blanc transition-colors no-underline flex flex-col items-center gap-2 hero-line"
+        style={{ animationDelay: '900ms' }}
+        aria-label="Découvrir notre métier"
+      >
+        <span className="scroll-cue block w-px h-8 bg-blanc/40" />
+      </a>
     </section>
   )
 }
